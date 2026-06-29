@@ -8,11 +8,11 @@ import { ItinerariosPage } from './pages/ItinerariosPage';
 import { ReservasPage } from './pages/ReservasPage';
 import { TransaccionesPage } from './pages/TransaccionesPage';
 import { FacturasPage } from './pages/FacturasPage';
-import { useAuth } from './context/AuthContext';
+import { useAuthStore } from './store/authStore';
 import type { ReactNode } from 'react';
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
-  const { isAuthenticated } = useAuth();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
