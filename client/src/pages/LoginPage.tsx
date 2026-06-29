@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
-import { cn } from '../lib/utils';
 
 export function LoginPage() {
   const { login, isLoading } = useAuth();
@@ -17,7 +16,7 @@ export function LoginPage() {
     setError('');
     try {
       await login(email, password);
-      navigate('/');
+      navigate('/app');
     } catch (err: any) {
       setError(err.message || 'Error al iniciar sesión');
     }

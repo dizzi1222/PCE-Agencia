@@ -10,13 +10,13 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { path: '/', label: 'Resumen', icon: LayoutDashboard },
-  { path: '/clientes', label: 'Clientes', icon: Users },
-  { path: '/proveedores', label: 'Proveedores', icon: Briefcase },
-  { path: '/itinerarios', label: 'Itinerarios', icon: Plane },
-  { path: '/reservas', label: 'Reservas', icon: Calendar },
-  { path: '/transacciones', label: 'Transacciones', icon: DollarSign },
-  { path: '/facturas', label: 'Facturas', icon: FileText },
+  { path: '/app', label: 'Resumen', icon: LayoutDashboard },
+  { path: '/app/clientes', label: 'Clientes', icon: Users },
+  { path: '/app/proveedores', label: 'Proveedores', icon: Briefcase },
+  { path: '/app/itinerarios', label: 'Itinerarios', icon: Plane },
+  { path: '/app/reservas', label: 'Reservas', icon: Calendar },
+  { path: '/app/transacciones', label: 'Transacciones', icon: DollarSign },
+  { path: '/app/facturas', label: 'Facturas', icon: FileText },
 ];
 
 export function DashboardLayout() {

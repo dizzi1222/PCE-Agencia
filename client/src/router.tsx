@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardLayout } from './layout/DashboardLayout';
 import { OverviewPage } from './pages/OverviewPage';
@@ -19,12 +20,25 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+function PublicRoute({ children }: { children: ReactNode }) {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  if (isAuthenticated) {
+    return <Navigate to="/app" replace />;
+  }
+  return <>{children}</>;
+}
+
 const router = createBrowserRouter([
   {
-    path: '/login',
-    element: <LoginPage />,
+    path: '/',
+    element: <PublicRoute><LandingPage /></PublicRoute>,
   },
   {
+    path: '/login',
+    element: <PublicRoute><LoginPage /></PublicRoute>,
+  },
+  {
+    path: '/app',
     element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
     children: [
       { index: true, element: <OverviewPage /> },
