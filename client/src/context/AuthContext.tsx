@@ -16,7 +16,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { user, accessToken, refreshToken, login: storeLogin, logout: storeLogout } = useAuthStore();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const refreshAuth = useCallback(async () => {
     if (!refreshToken) return;
