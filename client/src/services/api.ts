@@ -125,40 +125,39 @@ export const buildQueryString = (params: PaginationParams): string => {
   return searchParams.toString();
 };
 
-// Auth endpoints
+// Auth endpoints (unwrap Axios response)
 export const authApi = {
   register: (data: { nombre: string; email: string; password: string; rol?: string }) =>
-    api.post<ApiResponse<{ accessToken: string; refreshToken: string; usuario: any }>>('/auth/register', data),
+    api.post<ApiResponse<{ accessToken: string; refreshToken: string; usuario: any }>>('/auth/register', data).then(r => r.data),
   login: (data: { email: string; password: string }) =>
-    api.post<ApiResponse<{ accessToken: string; refreshToken: string; usuario: any }>>('/auth/login', data),
+    api.post<ApiResponse<{ accessToken: string; refreshToken: string; usuario: any }>>('/auth/login', data).then(r => r.data),
   refresh: (refreshToken: string) =>
-    api.post<ApiResponse<{ accessToken: string; refreshToken: string }>>('/auth/refresh', { refreshToken }),
+    api.post<ApiResponse<{ accessToken: string; refreshToken: string }>>('/auth/refresh', { refreshToken }).then(r => r.data),
   logout: (refreshToken: string) =>
-    api.post<ApiResponse<null>>('/auth/logout', { refreshToken }),
+    api.post<ApiResponse<null>>('/auth/logout', { refreshToken }).then(r => r.data),
   verifyEmail: (token: string) =>
-    api.get<ApiResponse<null>>(`/auth/verify-email?token=${token}`),
+    api.get<ApiResponse<null>>(`/auth/verify-email?token=${token}`).then(r => r.data),
   resendVerification: (email: string) =>
-    api.post<ApiResponse<null>>('/auth/resend-verification', { email }),
-  // 2FA
-  get2faStatus: () => api.get<ApiResponse<{ enabled: boolean }>>('/auth/2fa/status'),
-  enable2fa: () => api.post<ApiResponse<{ secret: string }>>('/auth/2fa/enable'),
-  verify2fa: (code: string) => api.post<ApiResponse<null>>('/auth/2fa/verify', { code }),
-  disable2fa: () => api.post<ApiResponse<null>>('/auth/2fa/disable'),
+    api.post<ApiResponse<null>>('/auth/resend-verification', { email }).then(r => r.data),
+  get2faStatus: () => api.get<ApiResponse<{ enabled: boolean }>>('/auth/2fa/status').then(r => r.data),
+  enable2fa: () => api.post<ApiResponse<{ secret: string }>>('/auth/2fa/enable').then(r => r.data),
+  verify2fa: (code: string) => api.post<ApiResponse<null>>('/auth/2fa/verify', { code }).then(r => r.data),
+  disable2fa: () => api.post<ApiResponse<null>>('/auth/2fa/disable').then(r => r.data),
 };
 
-// Generic CRUD helper
+// Generic CRUD helper (unwrap Axios response -> return ApiResponse directly)
 export function createCrudApi<T, TCreate, TUpdate>(endpoint: string) {
   return {
     list: (params?: PaginationParams) =>
-      api.get<ApiResponse<T[]>>(endpoint, { params }),
+      api.get<ApiResponse<T[]>>(endpoint, { params }).then(r => r.data),
     get: (id: string) =>
-      api.get<ApiResponse<T>>(`${endpoint}/${id}`),
+      api.get<ApiResponse<T>>(`${endpoint}/${id}`).then(r => r.data),
     create: (data: TCreate) =>
-      api.post<ApiResponse<T>>(endpoint, data),
+      api.post<ApiResponse<T>>(endpoint, data).then(r => r.data),
     update: (id: string, data: TUpdate) =>
-      api.put<ApiResponse<T>>(`${endpoint}/${id}`, data),
+      api.put<ApiResponse<T>>(`${endpoint}/${id}`, data).then(r => r.data),
     delete: (id: string) =>
-      api.delete<ApiResponse<null>>(`${endpoint}/${id}`),
+      api.delete<ApiResponse<null>>(`${endpoint}/${id}`).then(r => r.data),
   };
 }
 

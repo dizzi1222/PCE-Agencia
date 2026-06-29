@@ -21,7 +21,7 @@ export function OverviewPage() {
   const totalClientes = clientes?.meta?.total || 0;
   const totalReservas = reservas?.meta?.total || 0;
   const totalProveedores = proveedores?.meta?.total || 0;
-  const totalIngresos = transacciones?.data?.reduce((sum, t) => sum + (t.monto || 0), 0) || 0;
+  const totalIngresos = transacciones?.data?.reduce((sum: number, t: any) => sum + (t.monto || 0), 0) || 0;
 
   const stats = [
     { label: 'Clientes', value: totalClientes, icon: Users, color: 'bg-blue-500/20 text-blue-400' },
@@ -93,12 +93,12 @@ export function OverviewPage() {
             <a href="/transacciones" className="text-sm text-blue-400 hover:underline">Ver todas</a>
           </div>
           <div className="divide-y divide-border">
-            {(recentTransacciones?.data || []).length === 0 ? (
+            {(recentTransacciones?.data?.data || []).length === 0 ? (
               <div className="p-8 text-center text-[rgb(var(--muted-foreground))]">
                 No hay transacciones recientes
               </div>
             ) : (
-              recentTransacciones?.data?.map((t: any) => (
+              recentTransacciones?.data?.data?.map((t: any) => (
                 <div key={t.id} className="p-4 flex items-center justify-between hover:bg-[rgb(var(--accent))]/50">
                   <div>
                     <p className="font-medium text-[rgb(var(--foreground))]">{t.descripcion || t.tipo}</p>

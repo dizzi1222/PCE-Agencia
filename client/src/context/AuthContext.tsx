@@ -21,8 +21,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshAuth = useCallback(async () => {
     if (!refreshToken) return;
     try {
-      const { data } = await authApi.refresh(refreshToken);
-      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = data.data;
+      const res = await authApi.refresh(refreshToken);
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = res.data;
       useAuthStore.getState().setTokens(newAccessToken, newRefreshToken);
     } catch {
       useAuthStore.getState().logout();
@@ -43,16 +43,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
-    const { data } = await authApi.login({ email, password });
-    const { usuario, accessToken, refreshToken } = data.data;
+    const res = await authApi.login({ email, password });
+    const { usuario, accessToken, refreshToken } = res.data;
     storeLogin(usuario, accessToken, refreshToken);
     setIsLoading(false);
   };
 
   const register = async (userData: { nombre: string; email: string; password: string; rol?: string }) => {
     setIsLoading(true);
-    const { data } = await authApi.register(userData);
-    const { usuario, accessToken, refreshToken } = data.data;
+    const res = await authApi.register(userData);
+    const { usuario, accessToken, refreshToken } = res.data;
     storeLogin(usuario, accessToken, refreshToken);
     setIsLoading(false);
   };
